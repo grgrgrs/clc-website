@@ -1,0 +1,15 @@
+// Cloudflare Workers config (hosting-specific; the site itself doesn't depend on it).
+// Cloudflare Workers Builds reads this file from the repo root:
+//   main branch    -> `npx wrangler deploy`  -> production (clc-website.george-172.workers.dev)
+//   other branches -> `npx wrangler preview` -> preview URL for that branch
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "clc-website",
+  "compatibility_date": "2026-10-10",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  },
+  // Required by `wrangler preview`. Empty = previews use the settings above.
+  "previews": {}
+}
