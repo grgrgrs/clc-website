@@ -1,0 +1,77 @@
+---
+// Shared page shell: <head>, header + nav, footer.
+import "@fontsource/alegreya-sans/500.css";
+import "@fontsource/alegreya-sans/700.css";
+import "@fontsource/alegreya-sans/800.css";
+import "@fontsource-variable/literata";
+import "../styles/site.css";
+import Logo from "../components/Logo.astro";
+import { site } from "../site";
+
+interface Props {
+  title?: string;        // page title; omit on the home page
+  description?: string;
+  image?: string;        // social-sharing image (path under /public)
+}
+const { title, description = site.description, image = "/images/billboard-no-letcher-prison.jpg" } = Astro.props;
+const fullTitle = title ? `${title} | ${site.name}` : site.name;
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => (href === "/" ? path === "/" : path.startsWith(href));
+const canonical = new URL(path, site.url).href;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <meta property="og:site_name" content={site.name} />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content={new URL(image, site.url).href} />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="/">
+        <Logo size={46} />
+        <span>Concerned<br />Letcher Countians</span>
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+          {site.nav.map((item) => (
+            <li><a href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>{item.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="wrap">
+      <slot />
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p class="url">ConcernedLetcherCountians.org</p>
+      <div class="cols">
+        <p>{site.mail[0]}<br />{site.mail[1]}</p>
+        <p>
+          <a href={`mailto:${site.email}`}>{site.email}</a>
+          {site.social.map((s) => (<><br /><a href={s.url}>{s.label}</a></>))}
+        </p>
+      </div>
+      <p class="small">© {new Date().getFullYear()} {site.legalName}. {site.status}</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,12 @@
+# Netlify / Cloudflare Pages: copy into public/ to use. Permanent redirects from old Weebly URLs.
+/index.html  /  301
+/news.html  /news/  301
+/videos.html  /videos/  301
+/about.html  /about/  301
+/contact.html  /contact/  301
+/clc-talking-points.html  /why-we-oppose/  301
+/our-letter-to-the-bop.html  /why-we-oppose/letter-to-bop-2024/  301
+/find-out-what-your-neighbors-are-saying.html  /about/  301
+/survey.html  /  301
+/clc-comments.html  /  301
+/more.html  /  301

@@ -1,0 +1,11 @@
+---
+// The CLC "X" mark, redrawn from the original "NO NEW LETCHER PRISON" graphic.
+// Inline SVG so it stays sharp at any size; colour follows --green.
+const { size = 44 } = Astro.props;
+---
+<svg class="logo-x" width={size} height={size} viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+  <g transform="rotate(45 50 50)">
+    <rect x="-4" y="35" width="108" height="30" />
+    <rect x="35" y="-4" width="30" height="108" />
+  </g>
+</svg>

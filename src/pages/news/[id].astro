@@ -1,0 +1,22 @@
+---
+// Pages for CLC's own news posts (items with a body and no external url).
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("news", (e) => !e.data.draft && !e.data.url);
+  return posts.map((post) => ({ params: { id: post.id }, props: { post } }));
+}
+const { post } = Astro.props;
+const { Content } = await render(post);
+const d = post.data;
+---
+<Base title={d.title} description={d.summary} image={d.image}>
+  <article class="prose page-head">
+    <h1>{d.title}</h1>
+    {d.date && <p class="updated"><time datetime={d.date.toISOString().slice(0, 10)}>{d.date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" })}</time></p>}
+    {d.image && <img src={d.image} alt={d.image_alt} class="article-image" />}
+    <Content />
+    <p class="more"><a href="/news/">All news</a></p>
+  </article>
+</Base>

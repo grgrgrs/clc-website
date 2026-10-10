@@ -1,0 +1,31 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import { site } from "../site";
+const videos = (await getCollection("videos")).sort((a, b) => a.data.order - b.data.order);
+const channel = site.social.find((s) => s.url.includes("youtube.com"));
+---
+<Base title="Videos" description="Videos from Concerned Letcher Countians about the proposed federal prison in Letcher County.">
+  <div class="prose page-head">
+    <h1>Videos</h1>
+    {channel && <p>More on our <a href={channel.url}>YouTube channel</a>.</p>}
+  </div>
+  <div class="video-grid">
+    {videos.map((v) => (
+      <figure>
+        <div class="video-frame">
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${v.data.id}`}
+            title={v.data.title}
+            loading="lazy"
+            allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+        </div>
+        <figcaption>
+          <a href={`https://www.youtube.com/watch?v=${v.data.id}`}>{v.data.title}</a>
+          {v.data.description && <span>{v.data.description}</span>}
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+</Base>

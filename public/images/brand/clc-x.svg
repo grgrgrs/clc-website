@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="CLC X mark">
+  <g fill="#225345" transform="rotate(45 50 50)">
+    <rect x="-4" y="35" width="108" height="30"/>
+    <rect x="35" y="-4" width="30" height="108"/>
+  </g>
+</svg>

@@ -1,0 +1,78 @@
+---
+import { getEntry, getCollection, render } from "astro:content";
+import Base from "../layouts/Base.astro";
+import NewsItem from "../components/NewsItem.astro";
+import { getNews } from "../lib/news";
+
+const intro = await getEntry("text", "home-intro");
+const caseText = await getEntry("text", "home-case");
+const status = await getEntry("text", "status");
+const { Content: Intro } = await render(intro!);
+const { Content: Case } = await render(caseText!);
+const { Content: Status } = await render(status!);
+
+const { main } = await getNews();
+const recent = main.filter((e) => e.data.date).slice(0, 3);
+const videos = ((await getCollection("videos")).sort((a, b) => a.data.order - b.data.order)).slice(0, 3);
+const fmt = (d: Date) => d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" });
+---
+<Base>
+  <section class="intro">
+    <div>
+      <h1>{intro!.data.title}</h1>
+      <div class="lead"><Intro /></div>
+      <p>We are a group of volunteers who care about our county and its future.</p>
+    </div>
+    <figure>
+      <img src="/images/billboard-no-letcher-prison.jpg" width="1400" height="1120"
+           alt="A roadside billboard reading “No Letcher Prison — ConcernedLetcherCountians.org” in front of an autumn hillside." />
+    </figure>
+  </section>
+
+  <section class="band case">
+    <div class="prose">
+      <h2>{caseText!.data.title}</h2>
+      <Case />
+    </div>
+    <aside class="status" aria-labelledby="status-h">
+      <h2 id="status-h">{status!.data.title}</h2>
+      {status!.data.updated && (
+        <p class="updated">Last updated <time datetime={status!.data.updated.toISOString().slice(0, 10)}>{fmt(status!.data.updated)}</time></p>
+      )}
+      <Status />
+    </aside>
+  </section>
+
+  <section class="band" aria-labelledby="why-h">
+    <h2 id="why-h">Why we oppose FCI Letcher</h2>
+    <!-- Short summaries of points 1, 5, 6 and 13 on the Why we oppose page. -->
+    <ul class="reasons">
+      <li><strong>There is no established need.</strong> The federal prison population has declined by 26% over the last dozen years.</li>
+      <li><strong>Most of the money goes to leveling a mountain.</strong> Of the $506 million appropriated, $466 million would go to clearing the site, which raises the risk of another devastating flood.</li>
+      <li><strong>The jobs won’t go to local people.</strong> The three federal prisons already in southeastern Kentucky have 90 open positions, and the BOP says only 16% of Letcher County residents would be eligible to work in this one.</li>
+      <li><strong>Prison counties haven’t prospered.</strong> Martin, Clay, and McCreary counties all have federal prisons, and all are still classed as distressed by the Appalachian Regional Commission.</li>
+    </ul>
+    <p class="more"><a href="/why-we-oppose/">Read all 16 reasons</a></p>
+  </section>
+
+  <section class="band" aria-labelledby="news-h">
+    <h2 id="news-h">Recent news</h2>
+    <ul class="news-list">
+      {recent.map((item) => <NewsItem item={item} />)}
+    </ul>
+    <p class="more"><a href="/news/">All news</a></p>
+  </section>
+
+  <section class="band" aria-labelledby="vid-h">
+    <h2 id="vid-h">Videos</h2>
+    <div class="videos">
+      {videos.map((v) => (
+        <a href={`https://www.youtube.com/watch?v=${v.data.id}`}>
+          <img src={`https://i.ytimg.com/vi/${v.data.id}/hqdefault.jpg`} alt="" loading="lazy" width="480" height="360" />
+          {v.data.title}
+        </a>
+      ))}
+    </div>
+    <p class="more"><a href="/videos/">All videos</a></p>
+  </section>
+</Base>

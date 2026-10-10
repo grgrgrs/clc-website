@@ -1,0 +1,170 @@
+/* CLC design mockup — one plain stylesheet, tokens first. */
+
+:root {
+  /* Colour: taken from CLC's own materials */
+  --green:       #225345;  /* the "NO NEW LETCHER PRISON" X */
+  --green-link:  #1d6349;  /* slightly brighter for links (7:1 on white) */
+  --ink:         #1d2421;  /* body text */
+  --muted:       #535e59;  /* dates, sources, captions (6.6:1) */
+  --rule:        #d8dfdb;
+  --paper:       #ffffff;
+  --sky:         #eaf2fa;  /* the sky behind the billboard */
+  --ochre:       #8f5418;  /* autumn hillside; used only for "needs attention" notes */
+
+  /* Type */
+  --font-head: "Alegreya Sans", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Literata", Georgia, "Times New Roman", serif;
+
+  /* Layout */
+  --measure: 38rem;        /* comfortable reading width */
+  --wide: 68rem;
+  --gutter: clamp(1rem, 4vw, 2rem);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { font-size: 112.5%; } /* 18px base: easier for older readers */
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.65;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+a { color: var(--green-link); text-underline-offset: 0.18em; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 3px solid var(--ochre); outline-offset: 2px; }
+
+h1, h2, h3 {
+  font-family: var(--font-head);
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--green);
+  margin: 0 0 0.5em;
+}
+h1 { font-size: clamp(2rem, 5vw, 2.9rem); letter-spacing: -0.01em; }
+h2 { font-size: 1.55rem; }
+h3 { font-size: 1.15rem; }
+
+p { margin: 0 0 1em; }
+
+.wrap { max-width: var(--wide); margin: 0 auto; padding: 0 var(--gutter); }
+.prose { max-width: var(--measure); }
+.skip { position: absolute; left: -999px; }
+.skip:focus { left: 1rem; top: 1rem; background: var(--paper); padding: 0.5rem; z-index: 10; }
+
+/* ---------- Header ---------- */
+.site-header { border-bottom: 1px solid var(--rule); }
+.site-header .wrap {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 0.75rem 2rem; padding-block: 0.9rem;
+}
+.brand {
+  display: flex; align-items: center; gap: 0.7rem;
+  text-decoration: none; color: var(--green);
+  font-family: var(--font-head); font-weight: 800; font-size: 1.2rem; line-height: 1.1;
+}
+.brand img { width: 52px; }
+.site-nav ul {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-wrap: wrap; gap: 0.25rem 1.4rem;
+  font-family: var(--font-head); font-size: 1.05rem; font-weight: 500;
+}
+.site-nav a { color: var(--ink); text-decoration: none; padding: 0.2rem 0; }
+.site-nav a:hover { color: var(--green-link); text-decoration: underline; }
+.site-nav a[aria-current="page"] { color: var(--green); font-weight: 800; border-bottom: 3px solid var(--green); }
+
+/* ---------- Home ---------- */
+.intro {
+  display: grid; gap: 2rem; align-items: center;
+  padding-block: 2.5rem 3rem;
+}
+@media (min-width: 52rem) {
+  .intro { grid-template-columns: 1.05fr 1fr; gap: 3.5rem; }
+}
+.intro .lead { font-size: 1.2rem; }
+.intro figure { margin: 0; }
+.intro figcaption { font-size: 0.8rem; color: var(--muted); margin-top: 0.4rem; }
+
+.band { padding-block: 2.75rem; border-top: 1px solid var(--rule); }
+
+.case { display: grid; gap: 2.5rem; }
+@media (min-width: 52rem) { .case { grid-template-columns: 1.4fr 1fr; gap: 3.5rem; } }
+
+.status {
+  background: var(--sky);
+  padding: 1.5rem 1.6rem;
+  border-top: 5px solid var(--green);
+  align-self: start;
+}
+.status h2 { font-size: 1.3rem; }
+.status .updated { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.8rem; }
+.placeholder-note {
+  font-family: var(--font-head); font-size: 0.9rem; font-weight: 700;
+  color: var(--ochre); border: 2px dashed var(--ochre); padding: 0.35rem 0.6rem; margin-top: 0.8rem;
+}
+
+.reasons { list-style: none; padding: 0; margin: 0 0 1.2rem; max-width: var(--measure); }
+.reasons li { padding: 0.65rem 0; border-bottom: 1px solid var(--rule); }
+.reasons strong { font-family: var(--font-head); font-size: 1.08rem; color: var(--green); }
+
+.more { font-family: var(--font-head); font-weight: 700; font-size: 1.05rem; }
+
+.videos { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
+.videos a { text-decoration: none; color: var(--ink); font-family: var(--font-head); font-weight: 700; }
+.videos img { aspect-ratio: 16 / 9; object-fit: cover; width: 100%; margin-bottom: 0.5rem; }
+
+/* ---------- News list (shared by Home and News) ---------- */
+.news-list { list-style: none; padding: 0; margin: 0; }
+.news-item {
+  display: grid; gap: 0.15rem 1.5rem;
+  grid-template-columns: 1fr;
+  padding: 1rem 0; border-bottom: 1px solid var(--rule);
+}
+@media (min-width: 40rem) {
+  .news-item { grid-template-columns: 8.5rem 1fr; }
+  .news-item.has-image { grid-template-columns: 8.5rem 1fr 9rem; }
+}
+.news-item time, .news-item .undated { font-size: 0.85rem; color: var(--muted); padding-top: 0.2rem; }
+.news-item .undated { color: var(--ochre); }
+.news-item h3 { font-size: 1.1rem; margin: 0 0 0.15rem; }
+.news-item h3 a { color: var(--green-link); }
+.news-item .source { font-size: 0.9rem; color: var(--muted); margin: 0; }
+.news-item .summary { font-size: 0.95rem; margin: 0.3rem 0 0; }
+.news-item img { width: 9rem; border: 1px solid var(--rule); }
+
+.news-controls {
+  display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; align-items: end;
+  padding: 1rem 1.2rem; background: var(--sky); margin: 1.5rem 0 0.5rem;
+  font-family: var(--font-head);
+}
+.news-controls label { display: block; font-weight: 700; font-size: 0.95rem; margin-bottom: 0.25rem; }
+.news-controls input, .news-controls select {
+  font: inherit; font-size: 1rem; padding: 0.45rem 0.6rem;
+  border: 1px solid #9aa7a1; background: var(--paper); color: var(--ink); min-width: 14rem; max-width: 100%;
+}
+.news-count { font-size: 0.9rem; color: var(--muted); margin: 0.5rem 0 0; }
+
+.dead .news-item h3 a { color: var(--muted); }
+.dead .flag { font-family: var(--font-head); font-size: 0.85rem; font-weight: 700; color: var(--ochre); }
+
+/* ---------- Footer: the billboard's green strip ---------- */
+.site-footer { background: var(--green); color: #fff; margin-top: 4rem; }
+.site-footer .wrap { padding-block: 2.5rem 2rem; }
+.site-footer .url {
+  font-family: var(--font-head); font-weight: 800;
+  font-size: clamp(1.3rem, 4.2vw, 2.4rem); line-height: 1.1;
+  margin: 0 0 1.5rem; overflow-wrap: anywhere;
+}
+.site-footer .cols { display: flex; flex-wrap: wrap; gap: 0.5rem 3rem; font-size: 0.95rem; }
+.site-footer a { color: #fff; }
+.site-footer .small { font-size: 0.8rem; opacity: 0.85; margin-top: 1.5rem; }
+
+.page-head { padding-top: 2.5rem; }
+.news-item[hidden] { display: none; }
+.news-list + .more, .videos + .more { margin-top: 1.25rem; }
+.news-list + .band, #news + .band { margin-top: 3rem; }

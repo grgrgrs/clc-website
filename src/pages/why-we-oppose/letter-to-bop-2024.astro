@@ -1,0 +1,17 @@
+---
+import { getEntry, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+const page = await getEntry("text", "letter-to-bop-2024");
+const { Content } = await render(page!);
+---
+<Base title="Our 2024 letter to the Bureau of Prisons" description="CLC's 2024 comment on the Bureau of Prisons' Final Environmental Impact Statement for FCI Letcher.">
+  <article class="prose page-head">
+    <p class="crumb"><a href="/why-we-oppose/">Why we oppose</a></p>
+    <h1>{page!.data.title}</h1>
+    <p class="doc-note">
+      <strong>Historical document.</strong> This is CLC’s comment on the Federal Bureau of Prisons’ Final Environmental Impact Statement (FEIS) for FCI Letcher, submitted in 2024. It is reproduced as sent.
+    </p>
+    <h2 class="letter-re">RE: Comment to Final Environmental Impact Statement (FEIS) 2024</h2>
+    <div class="letter"><Content /></div>
+  </article>
+</Base>

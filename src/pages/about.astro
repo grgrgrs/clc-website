@@ -1,0 +1,12 @@
+---
+import { getEntry, render } from "astro:content";
+import Base from "../layouts/Base.astro";
+const page = await getEntry("text", "about");
+const { Content } = await render(page!);
+---
+<Base title="About" description="Concerned Letcher Countians is a group of volunteers who care about Letcher County, Kentucky, and its future.">
+  <article class="prose page-head about">
+    <h1>{page!.data.title}</h1>
+    <Content />
+  </article>
+</Base>

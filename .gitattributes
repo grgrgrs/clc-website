@@ -1,0 +1,7 @@
+* text=auto eol=lf
+# Raw evidence from the old site: keep byte-for-byte
+_original-site-snapshot-2026-10-10/** -text
+*.png binary
+*.jpg binary
+*.pdf binary
+*.webp binary

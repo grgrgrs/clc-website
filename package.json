@@ -1,0 +1,16 @@
+{
+  "name": "clc-website",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check-links": "node scripts/check-links.mjs"
+  },
+  "dependencies": {
+    "@fontsource-variable/literata": "^5.3.0",
+    "@fontsource/alegreya-sans": "^5.3.0",
+    "astro": "^7.3.8"
+  }
+}

@@ -1,0 +1,17 @@
+---
+import { getEntry, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+const page = await getEntry("text", "why-we-oppose");
+const { Content } = await render(page!);
+---
+<Base title={page!.data.title} description="The reasons Concerned Letcher Countians oppose a federal prison at Roxana, in Letcher County, Kentucky.">
+  <article class="prose page-head reasons-page">
+    <h1>{page!.data.title}</h1>
+    <Content />
+    <aside class="history-link">
+      <h2>Our 2024 letter to the Bureau of Prisons</h2>
+      <p>In 2024 CLC sent the Bureau of Prisons a formal comment on its Final Environmental Impact Statement, setting out 15 reasons to choose “No Action.” It is kept here as a historical document.</p>
+      <p class="more"><a href="/why-we-oppose/letter-to-bop-2024/">Read the letter</a></p>
+    </aside>
+  </article>
+</Base>

@@ -1,0 +1,77 @@
+---
+import Base from "../../layouts/Base.astro";
+import NewsItem from "../../components/NewsItem.astro";
+import { getNews } from "../../lib/news";
+const { main, further, dead } = await getNews();
+---
+<Base title="News" description="News coverage of the proposed federal prison in Letcher County, Kentucky.">
+  <div class="prose page-head">
+    <h1>News</h1>
+    <p>Coverage of the proposed federal prison in Letcher County, and writing by CLC members and neighbors.</p>
+  </div>
+
+  <form class="news-controls" role="search" id="news-controls" hidden>
+    <div>
+      <label for="q">Find articles</label>
+      <input id="q" type="search" placeholder="A word in the title or source" autocomplete="off" />
+    </div>
+    <div>
+      <label for="sort">Order</label>
+      <select id="sort">
+        <option value="new">Newest first</option>
+        <option value="old">Oldest first</option>
+      </select>
+    </div>
+  </form>
+  <p class="news-count" id="count" aria-live="polite"></p>
+
+  <ul class="news-list" id="news">
+    {main.map((item) => <NewsItem item={item} />)}
+  </ul>
+
+  {further.length > 0 && (
+    <section class="band" aria-labelledby="fr-h">
+      <h2 id="fr-h">Further reading</h2>
+      <p class="prose">Background on prisons, incarceration, and climate in Appalachia and beyond.</p>
+      <ul class="news-list">{further.map((item) => <NewsItem item={item} />)}</ul>
+    </section>
+  )}
+
+  {dead.length > 0 && (
+    <section class="band dead" aria-labelledby="dead-h">
+      <h2 id="dead-h">Links that no longer work</h2>
+      <p class="prose">These pages have moved or been taken down. We keep the original links here for reference while we look for replacements.</p>
+      <ul class="news-list">{dead.map((item) => <NewsItem item={item} />)}</ul>
+    </section>
+  )}
+</Base>
+
+<script>
+  // Search and sort for the main list. Without JavaScript the list is already newest first.
+  const form = document.getElementById("news-controls") as HTMLFormElement;
+  const list = document.getElementById("news")!;
+  const q = document.getElementById("q") as HTMLInputElement;
+  const sort = document.getElementById("sort") as HTMLSelectElement;
+  const count = document.getElementById("count")!;
+  const items = [...list.children] as HTMLElement[];
+
+  function update() {
+    const term = q.value.trim().toLowerCase();
+    const dir = sort.value === "old" ? 1 : -1;
+    const dated = items.filter((li) => li.dataset.date).sort((a, b) => dir * a.dataset.date!.localeCompare(b.dataset.date!));
+    const undated = items.filter((li) => !li.dataset.date);
+    let shown = 0;
+    for (const li of [...dated, ...undated]) {
+      const match = !term || li.textContent!.toLowerCase().includes(term);
+      li.hidden = !match;
+      if (match) shown++;
+      list.appendChild(li);
+    }
+    count.textContent = term ? `Showing ${shown} of ${items.length} articles` : `${items.length} articles`;
+  }
+  form.hidden = false;
+  form.addEventListener("submit", (e) => e.preventDefault());
+  q.addEventListener("input", update);
+  sort.addEventListener("change", update);
+  update();
+</script>

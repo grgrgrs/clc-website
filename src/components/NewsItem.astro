@@ -1,0 +1,26 @@
+---
+// One row in a news list. `item` is an entry from the news collection.
+import type { CollectionEntry } from "astro:content";
+interface Props { item: CollectionEntry<"news"> }
+const { item } = Astro.props;
+const d = item.data;
+const fmt = (date: Date) =>
+  date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" });
+const isoDate = d.date ? d.date.toISOString().slice(0, 10) : "";
+const href = d.url ?? `/news/${item.id}/`;
+---
+<li class:list={["news-item", { "has-image": d.image }]} data-date={isoDate}>
+  {d.date ? <time datetime={isoDate}>{fmt(d.date)}</time> : <span class="undated">Date needed</span>}
+  <div>
+    <h3><a href={href}>{d.title}</a></h3>
+    {d.source && <p class="source">{d.source}</p>}
+    {d.summary && <p class="summary">{d.summary}</p>}
+    {d.link_status === "dead" && (
+      <p class="flag">
+        {d.link_note ?? "This link no longer works."}
+        {d.link_checked && ` (checked ${d.link_checked.toLocaleDateString("en-US", { month: "long", year: "numeric", timeZone: "UTC" })})`}
+      </p>
+    )}
+  </div>
+  {d.image && <img src={d.image} alt={d.image_alt} loading="lazy" />}
+</li>

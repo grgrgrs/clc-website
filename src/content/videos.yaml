@@ -1,0 +1,20 @@
+# Videos from the CLC YouTube channel. "order" sets the display order (1 = first).
+# id = the part after "watch?v=" in the YouTube address.
+- id: sIwNlV5Mfd8
+  order: 1
+  title: "Trail towns, not jail towns!"
+- id: 1r5z3MOE8gE
+  order: 2
+  title: "Prison jobs? We all want jobs for Letcher County!"
+- id: Y6LL3ukoQOk
+  order: 3
+  title: "Prison employee and inmate suicide rates"
+- id: QLeQM5XG3YU
+  order: 4
+  title: "Whose money is allocated to build the Letcher prison anyway!?"
+- id: c2pYyzFjTkE
+  order: 5
+  title: "Amelia Kirby speaks at the EIS hearing in Letcher County"
+- id: wb7KyccOjj4
+  order: 6
+  title: "Lydia Pelot Hobbs speaks at the EIS hearing in Letcher County"
