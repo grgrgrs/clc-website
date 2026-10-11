@@ -27,7 +27,7 @@ Always run `npm run build` after content changes. The content schemas in `src/co
 | Page templates | `src/pages/` (one file = one URL), shared shell in `src/layouts/Base.astro` |
 | Images and PDFs | `public/images/`, `public/docs/`. Use lowercase-hyphenated file names |
 | Old Weebly URLs | `public/*.html` (meta-refresh fallbacks); real 301 rules in `deploy/` |
-| Host-specific config | `deploy/` only |
+| Host-specific config | `wrangler.jsonc` (Cloudflare, must be at the repo root); alternatives in `deploy/` |
 
 ## Adding a news item
 Create `src/content/news/YYYY-MM-DD-short-name.md` (use `undated-short-name.md` if the date is unknown):
@@ -56,7 +56,15 @@ image_alt: "What the image shows"                  # required if image is set
 - `original_source_url` records where migrated content came from on the old site. Keep it.
 - The domain's email (MX) is hosted at GreenGeeks. Any DNS change at launch must preserve it.
 
+## Deploying
+- Hosted on Cloudflare Workers (Workers Builds). Config: `wrangler.jsonc` (keep its `"previews": {}` block).
+- **Pushing to `main` deploys production** (https://clc-website.george-172.workers.dev). Don't push to `main` unless the change is approved.
+- Proposed changes go on a short-named branch. Each push gets a preview at `https://<branch-with-/-as-->-clc-website.george-172.workers.dev`.
+- Check a deployment with `/build.json` (`commit`, `branch`).
+- Full verified behavior and the publish flow: `docs/deployment.md`.
+
 ## Background docs
+- `docs/deployment.md`: production/preview behavior on Cloudflare (verified)
 - `docs/phase1-review.md`: review of Borgart and the old site, plus architecture decisions
 - `docs/content-plan.md`: site map, redirects, open questions for CLC
 - `design/design-proposal.md` and `design/mockup/`: the approved design direction (the mockup is reference only)
